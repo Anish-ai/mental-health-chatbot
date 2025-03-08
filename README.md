@@ -266,6 +266,16 @@ heroku config:set MODEL_PATH=ml_models/fine_tuned_dialogpt
 - Voice commands for hands-free operation
 - Simple, large-target UI controls
 
+## 🤝 Contributing
+
+We welcome contributions to improve this project! Here's how you can help:
+
+1. **Fork the Repository** 🍴
+2. **Create a Feature Branch** (`git checkout -b feature-name`)
+3. **Commit Your Changes** (`git commit -m "Added new feature"`)
+4. **Push to Your Branch** (`git push origin feature-name`)
+5. **Submit a Pull Request** 🚀
+
 ## 🔍 Troubleshooting
 
 ### Common Issues
