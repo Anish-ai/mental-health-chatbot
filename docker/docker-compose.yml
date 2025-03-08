@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # Frontend service
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.frontend
+    ports:
+      - "3000:80"  # Serve on port 3000
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000  # URL for the backend API
+    restart: unless-stopped
+
+  # Backend service
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.backend
+    ports:
+      - "5000:5000"  # Serve on port 5000
+    environment:
+      - PORT=5000
+      - DIALOGPT_MODEL_PATH=/app/ml_models/fine_tuned_dialogpt
+      - SENTIMENT_MODEL_PATH=/app/ml_models/fine_tuned_bert
+      - FLASK_ENV=production
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - ../ml_models:/app/ml_models  # Mount ML models
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  # Redis for caching
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+
+volumes:
+  redis-data:  # Persist Redis data
